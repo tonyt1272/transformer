@@ -241,6 +241,7 @@ import numpy as np
 # device = "cuda"
 device = "cuda" if torch.cuda.is_available() else "mps" if torch.has_mps or torch.backends.mps.is_available() else "cpu"
 model = ViT().to(device)
+# TODO:adjust optimizer
 optimizer = optim.AdamW(model.parameters(), lr=0.001)
 criterion = nn.CrossEntropyLoss()
 
@@ -285,6 +286,7 @@ for epoch in range(1000):
         print(f">>> Epoch {epoch} train loss: ", np.mean(epoch_losses))
         epoch_losses = []
         # Something was strange when using this?
+        #TODO: put model back in eval mode before inference
         # model.eval()
         for step, (inputs, labels) in enumerate(val_loader):
             inputs, labels = inputs.to(device), labels.to(device)
