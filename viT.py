@@ -70,6 +70,8 @@ class PatchEmbedding(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.projection(x)
+        #TODO: The sqrt(d_k) factor is built into the pytorch attention module, this multiplication
+        # undoes it.  The "a picture is worth 16x16 words" does not address.  Experiment with and withuot.
         # return x* math.sqrt(self.emb_size)
         return x
 
@@ -82,7 +84,8 @@ class PatchEmbedding(nn.Module):
 
 from einops import rearrange
 
-
+#TODO: "a picture is worth 16x16" uses learnable position embedding but the use case is different.
+#       Experiment with the pe below vs learnable.
 class PositionalEncoding(nn.Module):
 
     def __init__(self, d_model: int, seq_len: int, dropout: float) -> None:
